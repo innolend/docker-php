@@ -1,4 +1,4 @@
-FROM php:7-fpm-alpine
+FROM php:7.1.3-fpm-alpine
 
 # install extensions
 # intl, zip, soap
