@@ -19,6 +19,8 @@ RUN apk add --update --no-cache \
     && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
     && docker-php-ext-install -j"$(getconf _NPROCESSORS_ONLN)" gd
 
+RUN docker-php-ext-install -j"$(getconf _NPROCESSORS_ONLN)" bcmath
+
 # gmp
 RUN apk add --update --no-cache gmp gmp-dev \
     && docker-php-ext-install gmp
