@@ -2,7 +2,7 @@ FROM php:7.1.3-fpm-alpine
 
 # install extensions
 # intl, zip, soap
-RUN apk add --update --no-cache libintl icu icu-dev libxml2-dev wget \
+RUN apk add --update --no-cache libintl icu icu-dev libxml2-dev \
     && docker-php-ext-install intl zip soap
 
 # mysqli, pdo, pdo_mysql, pdo_pgsql
@@ -76,6 +76,7 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin -
 ENV COMPOSER_ALLOW_SUPERUSER 1
 
 # Install Code Sniffer
+RUN cd /tmp
 RUN curl -OL https://squizlabs.github.io/PHP_CodeSniffer/phpcs.phar && \
     cp /tmp/phpcs.phar /usr/local/bin/phpcs && \
     chmod +x /usr/local/bin/phpcs
