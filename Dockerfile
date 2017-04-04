@@ -76,21 +76,12 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin -
 ENV COMPOSER_ALLOW_SUPERUSER 1
 
 # Install Code Sniffer
-RUN cd /tmp
-RUN curl -OL https://squizlabs.github.io/PHP_CodeSniffer/phpcs.phar && \
-    cp /tmp/phpcs.phar /usr/local/bin/phpcs && \
-    chmod +x /usr/local/bin/phpcs
+RUN pear install PHP_CodeSniffer
 
-# Set some useful defaults to phpcs
-#magic
-#white
-#width
-
-RUN /usr/local/bin/phpcs --config-set show_progress 1 && \
-    /usr/local/bin/phpcs --config-set colors 1 && \
-    /usr/local/bin/phpcs --config-set report_width 140 && \
-    /usr/local/bin/phpcs --config-set encoding utf-8 \
-    /usr/local/bin/phpcs --config-set default_standard PSR2
+RUN phpcs --config-set colors 1
+RUN phpcs --config-set default_standard PSR2
+RUN phpcs --config-set severity 1
+RUN phpcs --config-set report_width 120
 
 RUN rm -rf /var/cache/apk/*
 
