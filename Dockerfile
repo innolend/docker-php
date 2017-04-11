@@ -9,26 +9,19 @@ RUN docker-php-source extract \
     && rm -r /tmp/redis.tar.gz \
     && mv phpredis-$PHPREDIS_VERSION /usr/src/php/ext/redis \
     && docker-php-ext-install redis \
-    && docker-php-source delete
-
-# xdebug
-RUN docker-php-source extract \
+    && docker-php-source delete \
+    # xdebug
+    && docker-php-source extract \
     && apk add --no-cache --virtual .phpize-deps-configure $PHPIZE_DEPS \
     && pecl install xdebug \
     && docker-php-ext-enable xdebug \
     && apk del .phpize-deps-configure \
-    && docker-php-source delete
-
-COPY ./xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
-
-# imagick
-RUN apk add --update --no-cache autoconf g++ imagemagick-dev libtool make \
+    && docker-php-source delete \
+    && apk add --update --no-cache autoconf g++ imagemagick-dev libtool make \
     && pecl install imagick \
     && docker-php-ext-enable imagick \
-    && apk del autoconf g++ libtool make
-
-# install libraries and extensions
-RUN apk add --update --no-cache \
+    && apk del autoconf g++ libtool make \
+    && apk add --update --no-cache \
         freetype-dev \
         libpng-dev libjpeg-turbo-dev \
         libmcrypt-dev \
@@ -40,6 +33,7 @@ RUN apk add --update --no-cache \
 		--with-jpeg-dir=/usr/include/ \
     && docker-php-ext-install -j"$(getconf _NPROCESSORS_ONLN)" gd iconv mcrypt bcmath
 
+COPY ./xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
 COPY ./opcache.ini /usr/local/etc/php/conf.d/opcache.ini
 
 ADD ./innolend.ini /usr/local/etc/php/conf.d
