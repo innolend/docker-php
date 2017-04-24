@@ -32,8 +32,8 @@ RUN docker-php-source extract \
 		--with-freetype-dir=/usr/include/ \
 		--with-jpeg-dir=/usr/include/ \
     && docker-php-ext-install -j"$(getconf _NPROCESSORS_ONLN)" gd iconv mcrypt bcmath \
-    && echo "@edge http://nl.alpinelinux.org/alpine/edge/main" >> /etc/apk/repositories && \
-    && echo "@community http://nl.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories && \
+    && echo "@edge http://nl.alpinelinux.org/alpine/edge/main" >> /etc/apk/repositories \
+    && echo "@community http://nl.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories \
     && apk add --no-cache pdftk@community libgcj@edge
 
 COPY ./xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
