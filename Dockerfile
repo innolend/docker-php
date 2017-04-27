@@ -1,7 +1,12 @@
-FROM php:7.1.3-fpm-alpine
+FROM php:7.1.4-fpm-alpine
 
 # php-redis
 ENV PHPREDIS_VERSION 3.0.0
+ENV COMPOSER_ALLOW_SUPERUSER 1
+
+RUN if [ ${PHP_TIMEZONE} ]; then \
+	echo "date.timezone=${PHP_TIMEZONE}" > $PHP_INI_DIR/conf.d/date_timezone.ini \
+;fi
 
 RUN docker-php-source extract \
     && curl -L -o /tmp/redis.tar.gz https://github.com/phpredis/phpredis/archive/$PHPREDIS_VERSION.tar.gz \
@@ -22,6 +27,7 @@ RUN docker-php-source extract \
     && docker-php-ext-enable imagick \
     && apk del autoconf g++ libtool make \
     && apk add --update --no-cache \
+		git \
         freetype-dev \
         libpng-dev libjpeg-turbo-dev \
         libmcrypt-dev \
@@ -36,22 +42,19 @@ RUN docker-php-source extract \
     && echo "@community http://nl.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories \
     && apk add --no-cache pdftk@community libgcj@edge
 
+# Install Code Sniffer
+RUN curl -sS https://getcomposer.org/installer | php -- \
+	 	 --install-dir=/usr/bin \
+		 --filename=composer \
+	&& composer global require "squizlabs/php_codesniffer=*"
+
 COPY ./xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
 COPY ./opcache.ini /usr/local/etc/php/conf.d/opcache.ini
 
-ADD ./innolend.ini /usr/local/etc/php/conf.d
+ADD ./innolend.ini /usr/local/etc/php/conf.d/
 ADD ./innolend.pool.conf /usr/local/etc/php-fpm.d/
 
-RUN if [ ${PHP_TIMEZONE} ]; then \
-	echo "date.timezone=${PHP_TIMEZONE}" > $PHP_INI_DIR/conf.d/date_timezone.ini \
-;fi
-	
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer 
-
-ENV COMPOSER_ALLOW_SUPERUSER 1
-
-# Install Code Sniffer
-RUN composer global require "squizlabs/php_codesniffer=*"
+WORKDIR /opt/project
 
 RUN rm -rf /var/cache/apk/*
 
