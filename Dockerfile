@@ -28,6 +28,8 @@ RUN docker-php-source extract \
     && apk del autoconf g++ libtool make \
     && apk add --update --no-cache \
 		git \
+		graphviz \
+		ttf-freefont \
         freetype-dev \
         libpng-dev libjpeg-turbo-dev \
         libmcrypt-dev \
