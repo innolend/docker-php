@@ -45,6 +45,7 @@ RUN docker-php-source extract \
     && apk add --no-cache pdftk@community libgcj@edge
 
 COPY composer.json /opt/offline/composer.json
+COPY composer.lock /opt/offline/composer.lock
 
 # Install Code Sniffer
 RUN curl -sS https://getcomposer.org/installer | php -- \
