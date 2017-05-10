@@ -42,11 +42,17 @@ RUN docker-php-source extract \
     && echo "@community http://nl.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories \
     && apk add --no-cache pdftk@community libgcj@edge
 
+COPY composer.json /opt/offline/composer.json
+
 # Install Code Sniffer
 RUN curl -sS https://getcomposer.org/installer | php -- \
 	 	 --install-dir=/usr/bin \
 		 --filename=composer \
 	&& composer global require "squizlabs/php_codesniffer=*"
+
+COPY composer.json /opt/offline/composer.json
+
+RUN cd /opt/offline && composer install
 
 COPY ./xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
 COPY ./opcache.ini /usr/local/etc/php/conf.d/opcache.ini
