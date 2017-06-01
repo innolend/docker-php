@@ -63,6 +63,8 @@ COPY ./opcache.ini /usr/local/etc/php/conf.d/opcache.ini
 ADD ./innolend.ini /usr/local/etc/php/conf.d/
 ADD ./innolend.pool.conf /usr/local/etc/php-fpm.d/
 
+EXPOSE 8001 18080
+
 WORKDIR /opt/project
 
 RUN rm -rf /var/cache/apk/*
