@@ -49,6 +49,7 @@ RUN docker-php-source extract \
 		--enable-gd-native-ttf \
 		--with-freetype-dir=/usr/include/ \
 		--with-jpeg-dir=/usr/include/ \
+    && pear install pear/Image_GraphViz \
     && docker-php-ext-install -j"$(getconf _NPROCESSORS_ONLN)" gd iconv mcrypt bcmath \
     && echo "@edge http://nl.alpinelinux.org/alpine/edge/main" >> /etc/apk/repositories \
     && echo "@community http://nl.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories \
