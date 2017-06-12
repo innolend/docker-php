@@ -25,7 +25,9 @@ RUN docker-php-source extract \
     && apk add --update --no-cache git autoconf g++ imagemagick-dev libtool make file gcc binutils isl libatomic libtool make re2c libstdc++ libgcc binutils-libs mpc1 mpfr3 gmp libgomp \
     && apk add --update --no-cache coreutils libltdl openssl-dev libmcrypt-dev curl-dev libc-dev musl-dev libxml2-dev icu-dev libedit-dev openssl-dev sqlite-dev imagemagick-dev libjpeg-turbo-dev libpng-dev postgresql-dev freetype-dev libmcrypt-dev icu-dev \
     && pecl install imagick \
-    && cd /tmp/ \
+    && mkdir /xhprof \
+    && mkdir /xhprof/output \
+    && cd /xhprof/ \
     && git clone https://github.com/longxinH/xhprof \
     && cd xhprof/extension \
     && phpize \
