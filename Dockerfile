@@ -22,8 +22,15 @@ RUN docker-php-source extract \
     && docker-php-ext-enable xdebug \
     && apk del .phpize-deps-configure \
     && docker-php-source delete \
-    && apk add --update --no-cache autoconf g++ imagemagick-dev libtool make \
+    && apk add --update --no-cache git autoconf g++ imagemagick-dev libtool make file gcc binutils isl libatomic libtool make re2c libstdc++ libgcc binutils-libs mpc1 mpfr3 gmp libgomp \
+    && apk add --update --no-cache coreutils libltdl openssl-dev libmcrypt-dev curl-dev libc-dev musl-dev libxml2-dev icu-dev libedit-dev openssl-dev sqlite-dev imagemagick-dev libjpeg-turbo-dev libpng-dev postgresql-dev freetype-dev libmcrypt-dev icu-dev \
     && pecl install imagick \
+    && cd /tmp/ \
+    && git clone https://github.com/longxinH/xhprof \
+    && cd xhprof/extension \
+    && phpize \
+    && ./configure --with-php-config=/usr/local/bin/php-config \
+    && make && make install \
     && docker-php-ext-enable imagick \
     && apk del autoconf g++ libtool make \
     && apk add --update --no-cache \
@@ -42,7 +49,7 @@ RUN docker-php-source extract \
     && docker-php-ext-install -j"$(getconf _NPROCESSORS_ONLN)" gd iconv mcrypt bcmath \
     && echo "@edge http://nl.alpinelinux.org/alpine/edge/main" >> /etc/apk/repositories \
     && echo "@community http://nl.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories \
-    && apk add --no-cache pdftk@community libgcj@edge
+    && apk add --no-cache pdftk@community libgcj@edge autoconf bzip2 libbz2 bzip2-dev enchant
 
 COPY composer.json /opt/offline/composer.json
 COPY composer.lock /opt/offline/composer.lock
