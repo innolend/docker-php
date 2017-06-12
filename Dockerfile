@@ -27,6 +27,7 @@ RUN docker-php-source extract \
     && pecl install imagick \
     && mkdir /xhprof \
     && mkdir /xhprof/output \
+    && chmod -R 777 /xhprof/output \
     && cd /xhprof/ \
     && git clone https://github.com/longxinH/xhprof \
     && cd xhprof/extension \
