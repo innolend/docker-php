@@ -22,7 +22,7 @@ RUN docker-php-source extract \
     && docker-php-ext-enable xdebug \
     && apk del .phpize-deps-configure \
     && docker-php-source delete \
-    && apk add --update --no-cache git autoconf g++ imagemagick-dev libtool make file gcc binutils isl libatomic libtool make re2c libstdc++ libgcc binutils-libs mpc1 mpfr3 gmp libgomp \
+    && apk add --update --no-cache mysql-client git autoconf g++ imagemagick-dev libtool make file gcc binutils isl libatomic libtool make re2c libstdc++ libgcc binutils-libs mpc1 mpfr3 gmp libgomp \
     && apk add --update --no-cache coreutils libltdl openssl-dev libmcrypt-dev curl-dev libc-dev musl-dev libxml2-dev icu-dev libedit-dev openssl-dev sqlite-dev imagemagick-dev libjpeg-turbo-dev libpng-dev postgresql-dev freetype-dev libmcrypt-dev icu-dev \
     && pecl install imagick \
     && mkdir /xhprof \
