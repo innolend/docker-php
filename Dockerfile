@@ -56,25 +56,25 @@ RUN docker-php-source extract \
     && apk add --no-cache pdftk@community libgcj@edge autoconf bzip2 libbz2 bzip2-dev enchant \
 
     # tesseract is in testing repo
-    &&  echo 'http://dl-cdn.alpinelinux.org/alpine/edge/testing' >> /etc/apk/repositories && \
-      apk add --update --no-cache tesseract-ocr && \
+    && echo "http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories \
+    && apk add --update --no-cache tesseract-ocr \
       # download traineddata
       # english
-      wget -q -P /usr/share/tessdata/ https://github.com/tesseract-ocr/tessdata/raw/master/eng.cube.bigrams && \
-      wget -q -P /usr/share/tessdata/ https://github.com/tesseract-ocr/tessdata/raw/master/eng.cube.fold && \
-      wget -q -P /usr/share/tessdata/ https://github.com/tesseract-ocr/tessdata/raw/master/eng.cube.lm && \
-      wget -q -P /usr/share/tessdata/ https://github.com/tesseract-ocr/tessdata/raw/master/eng.cube.nn && \
-      wget -q -P /usr/share/tessdata/ https://github.com/tesseract-ocr/tessdata/raw/master/eng.cube.params && \
-      wget -q -P /usr/share/tessdata/ https://github.com/tesseract-ocr/tessdata/raw/master/eng.cube.size && \
-      wget -q -P /usr/share/tessdata/ https://github.com/tesseract-ocr/tessdata/raw/master/eng.cube.word-freq && \
-      wget -q -P /usr/share/tessdata/ https://github.com/tesseract-ocr/tessdata/raw/master/eng.tesseract_cube.nn && \
-      wget -q -P /usr/share/tessdata/ https://github.com/tesseract-ocr/tessdata/raw/master/eng.traineddata && \
+      && wget -q -P /usr/share/tessdata/ https://github.com/tesseract-ocr/tessdata/raw/master/eng.cube.bigrams \
+      && wget -q -P /usr/share/tessdata/ https://github.com/tesseract-ocr/tessdata/raw/master/eng.cube.fold \
+      && wget -q -P /usr/share/tessdata/ https://github.com/tesseract-ocr/tessdata/raw/master/eng.cube.lm \
+      && wget -q -P /usr/share/tessdata/ https://github.com/tesseract-ocr/tessdata/raw/master/eng.cube.nn \
+      && wget -q -P /usr/share/tessdata/ https://github.com/tesseract-ocr/tessdata/raw/master/eng.cube.params \
+      && wget -q -P /usr/share/tessdata/ https://github.com/tesseract-ocr/tessdata/raw/master/eng.cube.size \
+      && wget -q -P /usr/share/tessdata/ https://github.com/tesseract-ocr/tessdata/raw/master/eng.cube.word-freq \
+      && wget -q -P /usr/share/tessdata/ https://github.com/tesseract-ocr/tessdata/raw/master/eng.tesseract_cube.nn \
+      && wget -q -P /usr/share/tessdata/ https://github.com/tesseract-ocr/tessdata/raw/master/eng.traineddata \
       # japanese
-      wget -q -P /usr/share/tessdata/ https://github.com/tesseract-ocr/tessdata/raw/master/jpn.traineddata && \
+      && wget -q -P /usr/share/tessdata/ https://github.com/tesseract-ocr/tessdata/raw/master/jpn.traineddata \
       # enable to use hocr option
-      wget -q -P /usr/share/tessdata/ https://github.com/tesseract-ocr/tessdata/raw/master/osd.traineddata && \
+      && wget -q -P /usr/share/tessdata/ https://github.com/tesseract-ocr/tessdata/raw/master/osd.traineddata \
       # delete wget-dependencies
-      apk del wget-dependencies
+      && apk del wget-dependencies
 
 COPY composer.json /opt/offline/composer.json
 COPY composer.lock /opt/offline/composer.lock
