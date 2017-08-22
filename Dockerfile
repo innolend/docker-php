@@ -53,34 +53,18 @@ RUN docker-php-source extract \
     && docker-php-ext-install -j"$(getconf _NPROCESSORS_ONLN)" gd iconv mcrypt bcmath \
     && echo "@edge http://nl.alpinelinux.org/alpine/edge/main" >> /etc/apk/repositories \
     && echo "@community http://nl.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories \
-    && apk add --no-cache pdftk@community libgcj@edge autoconf bzip2 libbz2 bzip2-dev enchant \
+    && apk add --no-cache pdftk@community libgcj@edge autoconf bzip2 libbz2 bzip2-dev enchant
 
-
-    && set -x \
+RUN set -x && \
     # enable to use wget command for donwloading from https site
-    && apk add --update --no-cache --virtual wget-dependencies \
-        ca-certificates \
-        openssl \
+    apk add --update --no-cache --virtual wget-dependencies \
+    ca-certificates \
+    openssl && \
     # tesseract is in testing repo
-    && echo "http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories \
-    && apk add --update --no-cache tesseract-ocr \
-      # download traineddata
-      # english
-      && wget -q -P /usr/share/tessdata/ https://github.com/tesseract-ocr/tessdata/raw/master/eng.cube.bigrams \
-      && wget -q -P /usr/share/tessdata/ https://github.com/tesseract-ocr/tessdata/raw/master/eng.cube.fold \
-      && wget -q -P /usr/share/tessdata/ https://github.com/tesseract-ocr/tessdata/raw/master/eng.cube.lm \
-      && wget -q -P /usr/share/tessdata/ https://github.com/tesseract-ocr/tessdata/raw/master/eng.cube.nn \
-      && wget -q -P /usr/share/tessdata/ https://github.com/tesseract-ocr/tessdata/raw/master/eng.cube.params \
-      && wget -q -P /usr/share/tessdata/ https://github.com/tesseract-ocr/tessdata/raw/master/eng.cube.size \
-      && wget -q -P /usr/share/tessdata/ https://github.com/tesseract-ocr/tessdata/raw/master/eng.cube.word-freq \
-      && wget -q -P /usr/share/tessdata/ https://github.com/tesseract-ocr/tessdata/raw/master/eng.tesseract_cube.nn \
-      && wget -q -P /usr/share/tessdata/ https://github.com/tesseract-ocr/tessdata/raw/master/eng.traineddata \
-      # japanese
-      && wget -q -P /usr/share/tessdata/ https://github.com/tesseract-ocr/tessdata/raw/master/jpn.traineddata \
-      # enable to use hocr option
-      && wget -q -P /usr/share/tessdata/ https://github.com/tesseract-ocr/tessdata/raw/master/osd.traineddata \
-      # delete wget-dependencies
-      && apk del wget-dependencies
+    echo 'http://dl-cdn.alpinelinux.org/alpine/v3.5/community' >> /etc/apk/repositories && \
+    apk add --update --no-cache tesseract-ocr && \
+    # delete wget-dependencies
+    apk del wget-dependencies
 
 COPY composer.json /opt/offline/composer.json
 COPY composer.lock /opt/offline/composer.lock
