@@ -63,6 +63,11 @@ RUN set -x && \
     # tesseract is in testing repo
     echo 'http://dl-cdn.alpinelinux.org/alpine/v3.5/community' >> /etc/apk/repositories && \
     apk add --update --no-cache tesseract-ocr && \
+    # download traineddata
+    # english
+    wget -q -P /usr/share/tessdata/ https://github.com/tesseract-ocr/tessdata/raw/master/eng.traineddata && \
+    #german
+    wget -q -P /usr/share/tessdata/ https://github.com/tesseract-ocr/tessdata/raw/master/deu.traineddata && \
     # delete wget-dependencies
     apk del wget-dependencies
 
