@@ -55,6 +55,12 @@ RUN docker-php-source extract \
     && echo "@community http://nl.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories \
     && apk add --no-cache pdftk@community libgcj@edge autoconf bzip2 libbz2 bzip2-dev enchant \
 
+
+    && set -x \
+    # enable to use wget command for donwloading from https site
+    && apk add --update --no-cache --virtual wget-dependencies \
+        ca-certificates \
+        openssl \
     # tesseract is in testing repo
     && echo "http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories \
     && apk add --update --no-cache tesseract-ocr \
