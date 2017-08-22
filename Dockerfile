@@ -53,7 +53,7 @@ RUN docker-php-source extract \
     && docker-php-ext-install -j"$(getconf _NPROCESSORS_ONLN)" gd iconv mcrypt bcmath \
     && echo "@edge http://nl.alpinelinux.org/alpine/edge/main" >> /etc/apk/repositories \
     && echo "@community http://nl.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories \
-    && apk add --no-cache pdftk@community libgcj@edge autoconf bzip2 libbz2 bzip2-dev enchant
+    && apk add --no-cache pdftk@community libgcj@edge autoconf bzip2 libbz2 bzip2-dev enchant \
 
     # tesseract is in testing repo
     &&  echo 'http://dl-cdn.alpinelinux.org/alpine/edge/testing' >> /etc/apk/repositories && \
